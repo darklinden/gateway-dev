@@ -1,0 +1,7 @@
+nginx_ssl/
+cert_data/
+acme_data/
+conf.d
+.env
+.claude
+nginx-with-acme.tar.gz

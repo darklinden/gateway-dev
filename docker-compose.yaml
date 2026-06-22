@@ -1,0 +1,25 @@
+services:
+  gateway:
+    image: ${DOMAIN}/nginx-with-acme:latest
+    restart: unless-stopped
+    entrypoint: ["/entrypoint.sh"]
+    dns:
+      - 223.5.5.5
+      - 8.8.8.8
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+      TENCENT_SECRET_ID: ${TENCENT_SECRET_ID}
+      TENCENT_SECRET_KEY: ${TENCENT_SECRET_KEY}
+      ACME_SERVER: ${ACME_SERVER:-}
+      EAB_KID: ${EAB_KID:-}
+      EAB_HMAC_KEY: ${EAB_HMAC_KEY:-}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./entrypoint.sh:/entrypoint.sh:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf.template:ro
+      - ./conf.d:/etc/nginx/conf.d
+      - ./nginx_ssl:/etc/nginx/ssl
+      - ./cert_data:/certs
+      - ./acme_data:/root/.acme.sh
