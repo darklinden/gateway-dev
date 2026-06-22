@@ -16,6 +16,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      - gateway-shared
     volumes:
       - ./entrypoint.sh:/entrypoint.sh:ro
       - ./nginx.conf:/etc/nginx/nginx.conf.template:ro
@@ -23,3 +25,7 @@ services:
       - ./nginx_ssl:/etc/nginx/ssl
       - ./cert_data:/certs
       - ./acme_data:/root/.acme.sh
+
+networks:
+  gateway-shared:
+    external: true
